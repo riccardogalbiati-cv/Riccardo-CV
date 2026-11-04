@@ -100,6 +100,27 @@ section > h2{font-size:clamp(1.8rem,4vw,2.3rem);line-height:1.2;margin-bottom:6p
 .contact .where{color:rgba(255,255,255,.6);margin-top:22px;font-size:.92rem}
 footer{background:var(--hero);color:rgba(255,255,255,.5);text-align:center;font-size:.85rem;padding:0 16px 32px}
 
+/* Animations: the intro rises in on load; sections, cards and chips rise in as they scroll into view.
+   Hidden states only apply once JS has marked the page (.js), and never for reduced motion or print. */
+@keyframes rise{from{opacity:0;transform:translateY(26px)}}
+@keyframes pop{from{opacity:0;transform:scale(.7)}}
+@keyframes grow{from{transform:scaleX(0)}}
+@media screen and (prefers-reduced-motion:no-preference){
+  .intro > *{animation:rise .8s cubic-bezier(.2,.7,.2,1) backwards}
+  .intro > :nth-child(2){animation-delay:.1s}
+  .intro > :nth-child(3){animation-delay:.2s}
+  .intro > :nth-child(4){animation-delay:.3s}
+  .intro > :nth-child(5){animation-delay:.42s}
+  .js .reveal:not(.in){opacity:0}
+  .js .reveal.in{animation:rise .7s cubic-bezier(.2,.7,.2,1) var(--d,0ms) backwards}
+  .js .reveal.in .chips li{animation:pop .45s cubic-bezier(.3,1.5,.5,1) calc(var(--d,0ms) + 250ms + var(--i,0) * 45ms) backwards}
+  .js .reveal.in .item{animation:rise .6s cubic-bezier(.2,.7,.2,1) calc(var(--d,0ms) + 150ms + var(--i,0) * 90ms) backwards}
+  .js section > h2.reveal.in::after{content:"";display:block;width:56px;height:3px;border-radius:3px;background:var(--accent);margin-top:10px;transform-origin:left;animation:grow .7s cubic-bezier(.2,.7,.2,1) .25s backwards}
+  .js .contact h2.reveal.in::after{margin:14px auto 0;background:rgba(255,255,255,.6)}
+  nav{transition:box-shadow .3s}
+  nav.scrolled{box-shadow:0 6px 24px rgba(14,34,53,.1)}
+}
+
 @media screen and (max-width:860px){
   .links{display:none}
   .intro{padding:72px 16px 64px}
@@ -190,6 +211,7 @@ def render(cv):
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="{FONTS}" rel="stylesheet">
+<script>document.documentElement.classList.add('js')</script>
 <style>{CSS}</style>
 </head>
 <body>
@@ -239,6 +261,15 @@ def render(cv):
 const links=[...document.querySelectorAll('.links a')];
 const io=new IntersectionObserver(es=>es.forEach(x=>{{if(x.isIntersecting)links.forEach(a=>a.classList.toggle('on',a.hash==='#'+x.target.id));}}),{{rootMargin:'-45% 0px -50% 0px'}});
 document.querySelectorAll('section[id]').forEach(s=>io.observe(s));
+
+// Scroll reveal: siblings are staggered, and chips and list items inside a card pop in one after another
+const items=document.querySelectorAll('section > h2, section > .lead, .card, .lang, .contact > :not(h2):not(.lead)');
+items.forEach(el=>{{el.classList.add('reveal');const sibs=[...el.parentElement.children].filter(x=>x.matches('.card,.lang'));if(sibs.includes(el))el.style.setProperty('--d',sibs.indexOf(el)*110+'ms');}});
+document.querySelectorAll('.chips,.list').forEach(l=>[...l.querySelectorAll('li,.item')].forEach((x,i)=>x.style.setProperty('--i',i)));
+const show=new IntersectionObserver(es=>es.forEach(x=>{{if(x.isIntersecting){{x.target.classList.add('in');show.unobserve(x.target);}}}}),{{rootMargin:'0px 0px -8% 0px'}});
+document.querySelectorAll('.reveal').forEach(el=>show.observe(el));
+const nav=document.querySelector('nav');
+addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>8),{{passive:true}});
 </script>
 </body>
 </html>
