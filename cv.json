@@ -1,0 +1,58 @@
+{
+  "name": "Riccardo Galbiati",
+  "headline": "MSc Media & Creative Industries",
+  "school": "Erasmus University Rotterdam",
+  "focus": "Market Research · Quantitative Research · Consumer Insights",
+  "contact": {
+    "location": "Rotterdam, Netherlands",
+    "phone": "+39 366 263 1630",
+    "email": "riccardo.galbiati99@gmail.com",
+    "linkedin_label": "Riccardo Galbiati",
+    "linkedin_url": "https://www.linkedin.com/in/riccardo-galbiati-942338420"
+  },
+  "profile": "Early-career consumer insights and market research graduate with an MSc in Media & Creative Industries and a BSc in Economics & Business. Hands-on experience designing surveys in Qualtrics, analysing quantitative data in SPSS and translating results into clear research conclusions. Experienced in qualitative interviews, audience research and applying insights to campaign positioning. Interested in rapid, practical research that helps brands test ideas and make informed decisions.",
+  "projects": [
+    {
+      "title": "Master's Thesis",
+      "focus": "Quantitative Survey Research & Data Analysis",
+      "summary": "Designed and distributed a Qualtrics survey investigating the effects of political disagreement with celebrities on audience attitudes and disengagement; analysed results using SPSS and interpreted patterns in responses."
+    },
+    {
+      "title": "Marketing Campaign Development",
+      "focus": "Consumer & Brand Insights",
+      "summary": "Conducted audience research for a group campaign proposal for an alternative music festival; used insights into consumer motivations to inform campaign positioning, messaging and potential brand partnerships."
+    },
+    {
+      "title": "Pre-Master's Thesis",
+      "focus": "Qualitative Audience Research",
+      "summary": "Conducted semi-structured interviews with Italian music listeners aged 18–30; analysed responses to identify themes around authenticity, music discovery and listener identity."
+    },
+    {
+      "title": "Audience Engagement Analysis",
+      "focus": "Cross-Platform Media Research",
+      "summary": "Analysed how Italian expats aged 20–35 in the Netherlands engage with Serie A content across streaming platforms and social media, examining motivations, participation and cross-platform behaviour."
+    }
+  ],
+  "education": [
+    {"degree": "MSc Media & Creative Industries", "institution": "Erasmus University Rotterdam", "dates": "2025 – 2026"},
+    {"degree": "Pre-Master Media & Creative Industries", "institution": "Erasmus University Rotterdam", "dates": "2024 – 2025"},
+    {"degree": "BSc Economics & Business", "institution": "Università degli Studi di Milano-Bicocca", "dates": "2020 – 2023"},
+    {"degree": "Exchange Semester", "institution": "Université Paris Dauphine", "dates": "2022 – 2023"}
+  ],
+  "experience": [
+    {"role": "Operational Employee", "organisation": "Albert Heijn", "type": "Work", "dates": "Feb 2025 – Present"},
+    {"role": "Farm Volunteer", "organisation": "Denmark", "type": "Volunteering", "dates": "Jun 2024", "summary": "Supported daily farm and hospitality operations, including guest reception and general maintenance."}
+  ],
+  "skills": [
+    {"group": "Research & Insights", "items": ["Quantitative research", "Qualitative research", "Survey design", "Data analysis", "Audience research", "Consumer behaviour", "Interpreting findings"]},
+    {"group": "Marketing & Brand Research", "items": ["Consumer insights", "Campaign development", "Audience targeting", "Positioning & messaging", "Brand partnership concepts", "Presenting recommendations"]},
+    {"group": "Research & Reporting Tools", "items": ["SPSS", "Qualtrics", "Excel", "Tableau", "Google Analytics", "PowerPoint", "Canva"]},
+    {"group": "Additional Technical Skills", "items": ["SQL (foundational)", "Python (foundational)", "Gephi", "ConText"]}
+  ],
+  "languages": [
+    {"language": "Italian", "level": "Native"},
+    {"language": "English", "level": "IELTS C1"},
+    {"language": "French", "level": "A1"},
+    {"language": "Dutch", "level": "A1"}
+  ]
+}
