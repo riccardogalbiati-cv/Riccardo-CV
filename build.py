@@ -66,8 +66,7 @@ section > h2{font-size:clamp(1.8rem,4vw,2.3rem);line-height:1.2;margin-bottom:6p
 .card{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:28px;transition:border-color .2s,box-shadow .2s,transform .2s}
 .card:hover{border-color:var(--accent);box-shadow:0 10px 28px rgba(14,34,53,.08);transform:translateY(-2px)}
 .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
-.num{font-family:var(--display);font-weight:800;font-size:2.5rem;line-height:1;color:var(--accent-soft);-webkit-text-stroke:1.5px var(--accent)}
-.card h3{font-size:1.2rem;line-height:1.3;margin-top:12px}
+.card h3{font-size:1.2rem;line-height:1.3}
 .focus{color:var(--accent);font-weight:700;font-size:.92rem;margin:2px 0 10px}
 .card p{color:var(--muted)}
 
@@ -119,7 +118,10 @@ footer{background:var(--hero);color:rgba(255,255,255,.5);text-align:center;font-
   body{font-size:8.4pt;line-height:1.36;-webkit-print-color-adjust:exact;print-color-adjust:exact}
   nav,.intro .btns,.contact,footer,.lead{display:none}
   .intro{padding:9mm 14mm 6mm}
-  .kicker{font-size:7.5pt}
+  /* No letter-spacing or type pills in print, so ATS software reads headings and job titles as plain words */
+  .kicker{font-size:7.5pt;letter-spacing:.02em}
+  .list h3{letter-spacing:.02em}
+  .pill{display:none}
   h1{font-size:32pt;margin:2mm 0 1mm}
   .edu-line{margin-bottom:2.5mm;font-size:8.8pt}
   .intro .profile{font-size:8.8pt;max-width:165mm;margin-bottom:2.5mm}
@@ -128,9 +130,6 @@ footer{background:var(--hero);color:rgba(255,255,255,.5);text-align:center;font-
   section > h2{font-size:11.5pt;margin-bottom:2.2mm}
   .grid2,.grid4{gap:3mm}
   .card{padding:2.8mm 3.8mm;border-radius:10px;box-shadow:none!important;transform:none!important}
-  .num{font-size:15pt;-webkit-text-stroke:1px var(--accent)}
-  .projects .card{display:grid;grid-template-columns:9mm 1fr;column-gap:1mm;align-content:start}
-  .projects .num{grid-row:span 3}
   .card h3{font-size:9.6pt;margin:0}
   .focus{font-size:8pt;margin:0 0 .8mm}
   .list h3{font-size:7.5pt;margin-bottom:.5mm}
@@ -154,8 +153,8 @@ def e(s):
     return escape(s or "")
 
 
-def project(i, x):
-    return (f'<article class="card"><div class="num">{i:02d}</div><h3>{e(x["title"])}</h3>'
+def project(x):
+    return (f'<article class="card"><h3>{e(x["title"])}</h3>'
             f'<div class="focus">{e(x["focus"])}</div><p>{e(x["summary"])}</p></article>')
 
 
@@ -173,7 +172,7 @@ def job(x):
 def render(cv):
     c = cv["contact"]
     tel = c["phone"].replace(" ", "")
-    projects = "".join(project(i, x) for i, x in enumerate(cv["projects"], 1))
+    projects = "".join(project(x) for x in cv["projects"])
     education = "".join(edu(x) for x in cv["education"])
     work = "".join(job(x) for x in cv["experience"])
     skills = "".join(f'<div class="card skill"><h3>{e(g["group"])}</h3><ul class="chips">'
