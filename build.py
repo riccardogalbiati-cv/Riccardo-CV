@@ -160,7 +160,7 @@ footer{background:var(--hero);color:rgba(255,255,255,.5);text-align:center;font-
   html{font-size:10.4px}
   body{font-size:8.3pt;line-height:1.3;-webkit-print-color-adjust:exact;print-color-adjust:exact}
   nav,.intro .btns,.contact,footer,.lead{display:none}
-  .intro{padding:8mm 14mm 5mm}
+  .intro{padding:6.5mm 14mm 4.5mm}
   /* No letter-spacing or type pills in print, so ATS software reads headings and job titles as plain words */
   .kicker{font-size:7.5pt;letter-spacing:.02em}
   .list h3{letter-spacing:.02em}
@@ -169,7 +169,7 @@ footer{background:var(--hero);color:rgba(255,255,255,.5);text-align:center;font-
   .edu-line{margin-bottom:2.5mm;font-size:8.8pt}
   .intro .profile{font-size:8.8pt;max-width:165mm;margin-bottom:2.5mm}
   .print-contact{display:flex;justify-content:center;flex-wrap:wrap;gap:1mm 5mm;font-size:8.4pt;color:var(--accent);font-weight:700}
-  section{max-width:none;padding:3.2mm 14mm 0}
+  section{max-width:none;padding:2.8mm 14mm 0}
   section > h2{font-size:11.5pt;margin-bottom:2.2mm}
   .grid2,.grid4{gap:3mm}
   .card{padding:2.6mm 3.8mm;border-radius:10px;box-shadow:none!important;transform:none!important}

@@ -146,6 +146,10 @@
       "issuer": "Google · Oct 2026"
     },
     {
+      "name": "IELTS English Certificate",
+      "issuer": "C1 level"
+    },
+    {
       "name": "Qualtrics, SQL and Python",
       "issuer": "BSc & MA coursework"
     }
@@ -157,7 +161,7 @@
     },
     {
       "language": "English",
-      "level": "IELTS C1"
+      "level": "C1"
     },
     {
       "language": "French",
