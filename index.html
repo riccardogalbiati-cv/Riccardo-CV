@@ -73,6 +73,17 @@ h1{font-family:var(--serif);font-weight:400;font-size:clamp(3rem,9vw,5.6rem);lin
 .intro .profile{max-width:660px;margin:0 auto 30px;color:var(--muted);font-size:1.12rem}
 .intro .btns{display:flex;justify-content:center;flex-wrap:wrap;gap:12px}
 .print-contact{display:none}
+/* Decorative rings coming in from both edges of the intro (website only) */
+.intro{position:relative;overflow:hidden}
+.intro > :not(.rings){position:relative;z-index:1}
+.rings{position:absolute;inset:0;pointer-events:none}
+.rings i{position:absolute;border-radius:50%;border:2px solid var(--accent);opacity:.14}
+.rings i:nth-child(1){width:420px;height:420px;left:-180px;top:-60px}
+.rings i:nth-child(2){width:260px;height:260px;left:-60px;top:40px;opacity:.1}
+.rings i:nth-child(3){width:14px;height:14px;left:220px;top:300px;background:var(--accent);opacity:.45}
+.rings i:nth-child(4){width:480px;height:480px;right:-220px;bottom:-140px}
+.rings i:nth-child(5){width:300px;height:300px;right:-90px;bottom:-40px;opacity:.1}
+.rings i:nth-child(6){width:10px;height:10px;right:240px;top:120px;background:var(--accent);opacity:.45}
 
 /* Sections */
 section{max-width:1080px;margin:0 auto;padding:88px 16px 0;scroll-margin-top:40px}
@@ -129,12 +140,14 @@ footer{background:var(--hero);color:rgba(255,255,255,.5);text-align:center;font-
 @keyframes rise{from{opacity:0;transform:translateY(26px)}}
 @keyframes pop{from{opacity:0;transform:scale(.7)}}
 @keyframes grow{from{transform:scaleX(0)}}
+@keyframes fade{from{opacity:0}}
 @media screen and (prefers-reduced-motion:no-preference){
   .intro > *{animation:rise .8s cubic-bezier(.2,.7,.2,1) backwards}
   .intro > :nth-child(2){animation-delay:.1s}
   .intro > :nth-child(3){animation-delay:.2s}
   .intro > :nth-child(4){animation-delay:.3s}
   .intro > :nth-child(5){animation-delay:.42s}
+  .intro > .rings{animation:fade 1.4s ease .2s backwards}
   .js .reveal:not(.in){opacity:0}
   .js .reveal.in{animation:rise .7s cubic-bezier(.2,.7,.2,1) var(--d,0ms) backwards}
   .js .reveal.in .chips li{animation:pop .45s cubic-bezier(.3,1.5,.5,1) calc(var(--d,0ms) + 250ms + var(--i,0) * 45ms) backwards}
@@ -147,6 +160,7 @@ footer{background:var(--hero);color:rgba(255,255,255,.5);text-align:center;font-
 
 @media screen and (max-width:860px){
   .links{display:none}
+  .rings{display:none}
   .menu-btn{display:inline-flex}
   nav.open .links{display:flex;flex-direction:column;gap:0;position:absolute;top:100%;left:0;right:0;background:var(--surface);border-bottom:1px solid var(--line);box-shadow:0 12px 24px rgba(14,34,53,.12);padding:4px 16px 10px}
   nav.open .links a{padding:13px 0;border-bottom:1px solid var(--line);font-size:1rem}
@@ -165,7 +179,7 @@ footer{background:var(--hero);color:rgba(255,255,255,.5);text-align:center;font-
 @media print{
   html{font-size:10.4px}
   body{font-size:8.3pt;line-height:1.3;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-  nav,.intro .btns,.contact,footer,.lead{display:none}
+  nav,.intro .btns,.rings,.contact,footer,.lead{display:none}
   .intro{padding:6.5mm 14mm 4.5mm}
   /* No letter-spacing or type pills in print, so ATS software reads headings and job titles as plain words */
   .kicker{font-size:7.5pt;letter-spacing:.02em}
@@ -212,6 +226,7 @@ footer{background:var(--hero);color:rgba(255,255,255,.5);text-align:center;font-
   <p class="edu-line">MA Media &amp; Creative Industries · Erasmus University Rotterdam</p>
   <p class="profile">Early-career consumer insights and market research graduate with an MA in Media &amp; Creative Industries and a BSc in Economics &amp; Business. Hands-on experience designing surveys in Qualtrics, analysing quantitative data in SPSS and translating results into clear research conclusions. Experienced in qualitative interviews, audience research and applying insights to campaign positioning. Interested in rapid, practical research that helps brands test ideas and make informed decisions.</p>
   <div class="btns"><a class="btn solid" href="#contact">Get in touch</a><a class="btn" href="#projects">See my research</a></div>
+  <div class="rings" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
   <div class="print-contact"><span>Rotterdam, Netherlands</span><span>riccardo.galbiati99@gmail.com</span><span>+39 366 263 1630</span><span>linkedin.com/in/riccardo-galbiati-942338420</span></div>
 </header>
 <main>
