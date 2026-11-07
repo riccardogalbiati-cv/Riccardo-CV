@@ -184,20 +184,20 @@ footer{background:var(--hero);color:rgba(255,255,255,.5);text-align:center;font-
   .intro .profile{font-size:8.8pt;max-width:165mm;margin-bottom:2.5mm}
   .print-contact{display:flex;justify-content:center;flex-wrap:wrap;gap:1mm 5mm;font-size:8.4pt;color:var(--accent);font-weight:700}
   section{max-width:none;padding:2.8mm 14mm 0}
-  section > h2{font-size:11.5pt;margin-bottom:2.2mm}
-  .grid2,.grid4{gap:3mm}
+  section > h2{font-size:11.5pt;margin-bottom:1.8mm}
+  .grid2,.grid4{gap:2.6mm}
   .card{padding:2.6mm 3.8mm;border-radius:10px;box-shadow:none!important;transform:none!important}
   .card h3{font-size:9.6pt;margin:0}
   .focus{font-size:8pt;margin:0 0 .8mm}
   .list h3{font-size:7.5pt;margin-bottom:.5mm}
-  .item{padding:1.4mm 0}
+  .item{padding:1.1mm 0}
   .item b{font-size:8.8pt}
   .item .when{font-size:8pt}
   .item p{font-size:8pt;margin-top:.3mm}
   .skill h3{font-size:8.8pt;margin-bottom:1.5mm}
   .chips{gap:1mm}
   .chips li{font-size:7.4pt;padding:.2mm 2mm}
-  .extras{margin-top:3mm;gap:3mm}
+  .extras{margin-top:2.6mm;gap:2.6mm}
   .langs{gap:0 6mm}
   .card-head .when{font-size:8pt}
   .tags{display:none} /* shown on the website and in the ATS PDF; hidden here to keep one page */
@@ -342,16 +342,16 @@ addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>8),{{passi
 
 
 ATS_CSS = """
-@page{size:A4;margin:10mm 15mm}
+@page{size:A4;margin:9mm 15mm}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:Arial,Helvetica,sans-serif;font-size:9.5pt;line-height:1.28;color:#000;max-width:180mm;margin:0 auto}
+body{font-family:Arial,Helvetica,sans-serif;font-size:9.5pt;line-height:1.26;color:#000;max-width:180mm;margin:0 auto}
 @media screen{body{padding:24px 16px}}
 h1{font-size:20pt}
 .sub{font-size:10.5pt;margin-top:1pt}
 .contact{margin-top:3pt}
 .contact span{white-space:nowrap}
-h2{font-size:10.5pt;text-transform:uppercase;border-bottom:1px solid #000;padding-bottom:1pt;margin:7pt 0 3.5pt}
-.entry{margin-bottom:3.5pt;break-inside:avoid}
+h2{font-size:10.5pt;text-transform:uppercase;border-bottom:1px solid #000;padding-bottom:1pt;margin:6.5pt 0 3pt}
+.entry{margin-bottom:3pt;break-inside:avoid}
 .row{display:flex;justify-content:space-between;gap:12pt}
 .row span{white-space:nowrap}
 p{margin-top:1pt}

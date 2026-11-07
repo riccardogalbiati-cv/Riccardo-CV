@@ -142,12 +142,16 @@
   ],
   "certifications": [
     {
-      "name": "Google Analytics Certification",
+      "name": "Google Analytics",
       "issuer": "Google · Oct 2026"
     },
     {
-      "name": "IELTS English Certificate",
+      "name": "IELTS English",
       "issuer": "C1 level"
+    },
+    {
+      "name": "Dutch A1",
+      "issuer": "Language & Training Centre, EUR · Jul 2026"
     },
     {
       "name": "Qualtrics, SQL and Python",
