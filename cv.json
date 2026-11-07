@@ -1,6 +1,6 @@
 {
   "name": "Riccardo Galbiati",
-  "headline": "MSc Media & Creative Industries",
+  "headline": "MA Media & Creative Industries",
   "school": "Erasmus University Rotterdam",
   "focus": "Market Research · Quantitative Research · Consumer Insights",
   "contact": {
@@ -10,32 +10,36 @@
     "linkedin_label": "Riccardo Galbiati",
     "linkedin_url": "https://www.linkedin.com/in/riccardo-galbiati-942338420"
   },
-  "profile": "Early-career consumer insights and market research graduate with an MSc in Media & Creative Industries and a BSc in Economics & Business. Hands-on experience designing surveys in Qualtrics, analysing quantitative data in SPSS and translating results into clear research conclusions. Experienced in qualitative interviews, audience research and applying insights to campaign positioning. Interested in rapid, practical research that helps brands test ideas and make informed decisions.",
+  "profile": "Early-career consumer insights and market research graduate with an MA in Media & Creative Industries and a BSc in Economics & Business. Hands-on experience designing surveys in Qualtrics, analysing quantitative data in SPSS and translating results into clear research conclusions. Experienced in qualitative interviews, audience research and applying insights to campaign positioning. Interested in rapid, practical research that helps brands test ideas and make informed decisions.",
   "projects": [
     {
       "title": "Master's Thesis",
+      "dates": "Mar – Jun 2026",
       "focus": "Consumer Behaviour & Data Analytics",
       "summary": "Designed a consumer survey with 315 participants, using SPSS regression and mediation analysis to identify key drivers of audience loyalty and disengagement, with a model explaining 59.1% of variance in disengagement intentions."
     },
     {
       "title": "Jera On Air",
+      "dates": "Feb – Mar 2026",
       "focus": "Digital Marketing & Brand Strategy",
       "summary": "Co-developed an integrated marketing campaign proposal for a music festival attracting 40,000+ annual visitors, targeting consumers aged 20–25 across 3 countries through a multi-channel strategy, 3 brand extension concepts and 2 potential brand partnerships."
     },
     {
-      "title": "Pre-Master Research",
-      "focus": "Consumer Insights & Brand Perception",
-      "summary": "Conducted 10 in-depth consumer interviews and identified 4 key behavioural themes influencing brand authenticity, perceived value and audience preferences, translating qualitative findings into insights for audience positioning."
-    },
-    {
       "title": "Live Music Ticket Pricing",
+      "dates": "Feb 2026",
       "focus": "Market & Competitive Analysis",
       "summary": "Analysed industry reports and news articles, identifying 6 recurring explanations for rising concert prices; found market concentration featured in 83% of the articles, alongside production costs and changing consumer demand."
+    },
+    {
+      "title": "Pre-Master Research",
+      "dates": "Apr – Jun 2025",
+      "focus": "Consumer Insights & Brand Perception",
+      "summary": "Conducted 10 in-depth consumer interviews and identified 4 key behavioural themes influencing brand authenticity, perceived value and audience preferences, translating qualitative findings into insights for audience positioning."
     }
   ],
   "education": [
     {
-      "degree": "MSc Media & Creative Industries",
+      "degree": "MA Media & Creative Industries",
       "institution": "Erasmus University Rotterdam",
       "dates": "2025 – 2026"
     },
@@ -115,6 +119,16 @@
         "Gephi",
         "ConText"
       ]
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Google Analytics Certification",
+      "issuer": "Google"
+    },
+    {
+      "name": "Qualtrics, SQL and Python",
+      "issuer": "BSc & MA coursework"
     }
   ],
   "languages": [

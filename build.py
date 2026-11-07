@@ -69,6 +69,8 @@ section > h2{font-size:clamp(1.8rem,4vw,2.3rem);line-height:1.2;margin-bottom:6p
 /* With an odd number of projects, the first (the thesis) spans the full width */
 .projects .grid2 > .card:first-child:nth-last-child(odd){grid-column:1/-1}
 .card h3{font-size:1.2rem;line-height:1.3}
+.card-head{display:flex;justify-content:space-between;align-items:baseline;gap:0 12px;flex-wrap:wrap}
+.card-head .when{color:var(--muted);font-weight:700;font-size:.88rem;white-space:nowrap}
 .focus{color:var(--accent);font-weight:700;font-size:.92rem;margin:2px 0 10px}
 .card p{color:var(--muted)}
 
@@ -86,10 +88,10 @@ section > h2{font-size:clamp(1.8rem,4vw,2.3rem);line-height:1.2;margin-bottom:6p
 /* Skills */
 .grid4{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
 .skill h3{font-size:1.05rem;margin:0 0 12px}
-.langs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;margin-top:20px}
-.lang{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px 20px}
-.lang b{display:block;font-family:var(--display);font-weight:800;font-size:1.1rem}
-.lang span{color:var(--muted);font-size:.92rem}
+/* Certifications next to languages, which sit in two columns */
+.extras{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin-top:20px;align-items:start}
+.langs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 28px}
+.langs .item:nth-last-child(-n+2){border:0;padding-bottom:0}
 
 /* Contact band */
 .contact{max-width:none;margin-top:96px;padding:80px 16px;background:var(--hero);color:#fff;text-align:center}
@@ -128,7 +130,7 @@ footer{background:var(--hero);color:rgba(255,255,255,.5);text-align:center;font-
   .intro{padding:72px 16px 64px}
   section{padding-top:64px}
   .grid2,.grid4{grid-template-columns:minmax(0,1fr)}
-  .langs{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .extras{grid-template-columns:minmax(0,1fr)}
   .card{padding:22px}
   .contact{margin-top:72px;padding:64px 16px}
 }
@@ -138,9 +140,9 @@ footer{background:var(--hero);color:rgba(255,255,255,.5);text-align:center;font-
 @page{size:A4;margin:0}
 @media print{
   html{font-size:10.4px}
-  body{font-size:8.3pt;line-height:1.34;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body{font-size:8.3pt;line-height:1.3;-webkit-print-color-adjust:exact;print-color-adjust:exact}
   nav,.intro .btns,.contact,footer,.lead{display:none}
-  .intro{padding:9mm 14mm 6mm}
+  .intro{padding:8mm 14mm 5mm}
   /* No letter-spacing or type pills in print, so ATS software reads headings and job titles as plain words */
   .kicker{font-size:7.5pt;letter-spacing:.02em}
   .list h3{letter-spacing:.02em}
@@ -149,7 +151,7 @@ footer{background:var(--hero);color:rgba(255,255,255,.5);text-align:center;font-
   .edu-line{margin-bottom:2.5mm;font-size:8.8pt}
   .intro .profile{font-size:8.8pt;max-width:165mm;margin-bottom:2.5mm}
   .print-contact{display:flex;justify-content:center;flex-wrap:wrap;gap:1mm 5mm;font-size:8.4pt;color:var(--accent);font-weight:700}
-  section{max-width:none;padding:4mm 14mm 0}
+  section{max-width:none;padding:3.2mm 14mm 0}
   section > h2{font-size:11.5pt;margin-bottom:2.2mm}
   .grid2,.grid4{gap:3mm}
   .card{padding:2.6mm 3.8mm;border-radius:10px;box-shadow:none!important;transform:none!important}
@@ -163,11 +165,10 @@ footer{background:var(--hero);color:rgba(255,255,255,.5);text-align:center;font-
   .skill h3{font-size:8.8pt;margin-bottom:1.5mm}
   .chips{gap:1mm}
   .chips li{font-size:7.4pt;padding:.2mm 2mm}
-  .langs{margin-top:3mm;gap:3mm}
-  .lang{padding:1.8mm 3.5mm;border-radius:10px}
-  .lang b{font-size:9pt}
-  .lang span{font-size:7.8pt}
-  .card,.lang{break-inside:avoid}
+  .extras{margin-top:3mm;gap:3mm}
+  .langs{gap:0 6mm}
+  .card-head .when{font-size:8pt}
+  .card{break-inside:avoid}
 }
 """
 
@@ -177,7 +178,7 @@ def e(s):
 
 
 def project(x):
-    return (f'<article class="card"><h3>{e(x["title"])}</h3>'
+    return (f'<article class="card"><div class="card-head"><h3>{e(x["title"])}</h3><span class="when">{e(x.get("dates"))}</span></div>'
             f'<div class="focus">{e(x["focus"])}</div><p>{e(x["summary"])}</p></article>')
 
 
@@ -201,7 +202,8 @@ def render(cv):
     skills = "".join(f'<div class="card skill"><h3>{e(g["group"])}</h3><ul class="chips">'
                      + "".join(f"<li>{e(s)}</li>" for s in g["items"]) + "</ul></div>"
                      for g in cv["skills"])
-    langs = "".join(f'<div class="lang"><b>{e(l["language"])}</b><span>{e(l["level"])}</span></div>' for l in cv["languages"])
+    certs = "".join(f'<div class="item"><div class="item-head"><b>{e(x["name"])}</b><span class="where">{e(x["issuer"])}</span></div></div>' for x in cv.get("certifications", []))
+    langs = "".join(f'<div class="item"><div class="item-head"><b>{e(l["language"])}</b><span class="when">{e(l["level"])}</span></div></div>' for l in cv["languages"])
 
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -237,7 +239,7 @@ addEventListener('load',()=>scrollTo({{top:0,behavior:'instant'}}))</script>
 <main>
 <section id="projects" class="projects">
   <h2>Research projects</h2>
-  <p class="lead">Quantitative and qualitative research from my MSc and pre-master at Erasmus University Rotterdam.</p>
+  <p class="lead">Quantitative and qualitative research from my MA and pre-master at Erasmus University Rotterdam.</p>
   <div class="grid2">{projects}</div>
 </section>
 <section id="education">
@@ -252,7 +254,10 @@ addEventListener('load',()=>scrollTo({{top:0,behavior:'instant'}}))</script>
   <h2>Skills &amp; languages</h2>
   <p class="lead">Research methods, marketing insight and the tools I use day to day.</p>
   <div class="grid4">{skills}</div>
-  <div class="langs">{langs}</div>
+  <div class="extras">
+    <div class="card list"><h3>Certifications &amp; coursework</h3>{certs}</div>
+    <div class="card list"><h3>Languages</h3><div class="langs">{langs}</div></div>
+  </div>
 </section>
 <section id="contact" class="contact">
   <h2>Let's talk</h2>
@@ -269,8 +274,8 @@ const io=new IntersectionObserver(es=>es.forEach(x=>{{if(x.isIntersecting)links.
 document.querySelectorAll('section[id]').forEach(s=>io.observe(s));
 
 // Scroll reveal: siblings are staggered, and chips and list items inside a card pop in one after another
-const items=document.querySelectorAll('section > h2, section > .lead, .card, .lang, .contact > :not(h2):not(.lead)');
-items.forEach(el=>{{el.classList.add('reveal');const sibs=[...el.parentElement.children].filter(x=>x.matches('.card,.lang'));if(sibs.includes(el))el.style.setProperty('--d',sibs.indexOf(el)*110+'ms');}});
+const items=document.querySelectorAll('section > h2, section > .lead, .card, .contact > :not(h2):not(.lead)');
+items.forEach(el=>{{el.classList.add('reveal');const sibs=[...el.parentElement.children].filter(x=>x.matches('.card'));if(sibs.includes(el))el.style.setProperty('--d',sibs.indexOf(el)*110+'ms');}});
 document.querySelectorAll('.chips,.list').forEach(l=>[...l.querySelectorAll('li,.item')].forEach((x,i)=>x.style.setProperty('--i',i)));
 const show=new IntersectionObserver(es=>es.forEach(x=>{{if(x.isIntersecting){{x.target.classList.add('in');show.unobserve(x.target);}}}}),{{rootMargin:'0px 0px -8% 0px'}});
 document.querySelectorAll('.reveal').forEach(el=>show.observe(el));
