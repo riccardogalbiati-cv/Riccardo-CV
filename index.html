@@ -61,6 +61,8 @@ section > h2{font-size:clamp(1.8rem,4vw,2.3rem);line-height:1.2;margin-bottom:6p
 .card{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:28px;transition:border-color .2s,box-shadow .2s,transform .2s}
 .card:hover{border-color:var(--accent);box-shadow:0 10px 28px rgba(14,34,53,.08);transform:translateY(-2px)}
 .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+/* With an odd number of projects, the first (the thesis) spans the full width */
+.projects .grid2 > .card:first-child:nth-last-child(odd){grid-column:1/-1}
 .card h3{font-size:1.2rem;line-height:1.3}
 .focus{color:var(--accent);font-weight:700;font-size:.92rem;margin:2px 0 10px}
 .card p{color:var(--muted)}
@@ -131,7 +133,7 @@ footer{background:var(--hero);color:rgba(255,255,255,.5);text-align:center;font-
 @page{size:A4;margin:0}
 @media print{
   html{font-size:10.4px}
-  body{font-size:8.4pt;line-height:1.36;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body{font-size:8.3pt;line-height:1.34;-webkit-print-color-adjust:exact;print-color-adjust:exact}
   nav,.intro .btns,.contact,footer,.lead{display:none}
   .intro{padding:9mm 14mm 6mm}
   /* No letter-spacing or type pills in print, so ATS software reads headings and job titles as plain words */
@@ -145,7 +147,7 @@ footer{background:var(--hero);color:rgba(255,255,255,.5);text-align:center;font-
   section{max-width:none;padding:4mm 14mm 0}
   section > h2{font-size:11.5pt;margin-bottom:2.2mm}
   .grid2,.grid4{gap:3mm}
-  .card{padding:2.8mm 3.8mm;border-radius:10px;box-shadow:none!important;transform:none!important}
+  .card{padding:2.6mm 3.8mm;border-radius:10px;box-shadow:none!important;transform:none!important}
   .card h3{font-size:9.6pt;margin:0}
   .focus{font-size:8pt;margin:0 0 .8mm}
   .list h3{font-size:7.5pt;margin-bottom:.5mm}
@@ -182,14 +184,14 @@ footer{background:var(--hero);color:rgba(255,255,255,.5);text-align:center;font-
 <section id="projects" class="projects">
   <h2>Research projects</h2>
   <p class="lead">Quantitative and qualitative research from my MSc and pre-master at Erasmus University Rotterdam.</p>
-  <div class="grid2"><article class="card"><h3>Master&#x27;s Thesis</h3><div class="focus">Quantitative Survey Research &amp; Data Analysis</div><p>Designed and distributed a Qualtrics survey investigating the effects of political disagreement with celebrities on audience attitudes and disengagement; analysed results using SPSS and interpreted patterns in responses.</p></article><article class="card"><h3>Marketing Campaign Development</h3><div class="focus">Consumer &amp; Brand Insights</div><p>Conducted audience research for a group campaign proposal for an alternative music festival; used insights into consumer motivations to inform campaign positioning, messaging and potential brand partnerships.</p></article><article class="card"><h3>Pre-Master&#x27;s Thesis</h3><div class="focus">Qualitative Audience Research</div><p>Conducted semi-structured interviews with Italian music listeners aged 18–30; analysed responses to identify themes around authenticity, music discovery and listener identity.</p></article><article class="card"><h3>Audience Engagement Analysis</h3><div class="focus">Cross-Platform Media Research</div><p>Analysed how Italian expats aged 20–35 in the Netherlands engage with Serie A content across streaming platforms and social media, examining motivations, participation and cross-platform behaviour.</p></article></div>
+  <div class="grid2"><article class="card"><h3>Master&#x27;s Thesis</h3><div class="focus">Consumer Behaviour &amp; Data Analytics</div><p>Designed a consumer survey with 315 participants, using SPSS regression and mediation analysis to identify key drivers of audience loyalty and disengagement, with a model explaining 59.1% of variance in disengagement intentions.</p></article><article class="card"><h3>Jera On Air</h3><div class="focus">Digital Marketing &amp; Brand Strategy</div><p>Co-developed an integrated marketing campaign proposal for a music festival attracting 40,000+ annual visitors, targeting consumers aged 20–25 across 3 countries through a multi-channel strategy, 3 brand extension concepts and 2 potential brand partnerships.</p></article><article class="card"><h3>Pre-Master Research</h3><div class="focus">Consumer Insights &amp; Brand Perception</div><p>Conducted 10 in-depth consumer interviews and identified 4 key behavioural themes influencing brand authenticity, perceived value and audience preferences, translating qualitative findings into insights for audience positioning.</p></article><article class="card"><h3>Live Music Ticket Pricing</h3><div class="focus">Market &amp; Competitive Analysis</div><p>Analysed industry reports and news articles, identifying 6 recurring explanations for rising concert prices; found market concentration featured in 83% of the articles, alongside production costs and changing consumer demand.</p></article></div>
 </section>
 <section id="education">
   <h2>Education &amp; experience</h2>
   <p class="lead">Studies in Milan, Paris and Rotterdam.</p>
   <div class="grid2">
     <div class="card list"><h3>Education</h3><div class="item"><div class="item-head"><b>MSc Media &amp; Creative Industries</b><span class="when">2025 – 2026</span></div><div class="where">Erasmus University Rotterdam</div></div><div class="item"><div class="item-head"><b>Pre-Master Media &amp; Creative Industries</b><span class="when">2024 – 2025</span></div><div class="where">Erasmus University Rotterdam</div></div><div class="item"><div class="item-head"><b>BSc Economics &amp; Business</b><span class="when">2020 – 2023</span></div><div class="where">Università degli Studi di Milano-Bicocca</div></div><div class="item"><div class="item-head"><b>Exchange Semester</b><span class="when">2022 – 2023</span></div><div class="where">Université Paris Dauphine</div></div></div>
-    <div class="card list"><h3>Work &amp; volunteering</h3><div class="item"><div class="item-head"><b>Operational Employee<span class="pill">Work</span></b><span class="when">Feb 2025 – Present</span></div><div class="where">Albert Heijn</div></div><div class="item"><div class="item-head"><b>Farm Volunteer<span class="pill">Volunteering</span></b><span class="when">Jun 2024</span></div><div class="where">Denmark</div><p>Supported daily farm and hospitality operations, including guest reception and general maintenance.</p></div></div>
+    <div class="card list"><h3>Work &amp; volunteering</h3><div class="item"><div class="item-head"><b>Operational Employee<span class="pill">Work</span></b><span class="when">Feb 2025 – Present</span></div><div class="where">Albert Heijn</div><p>Retail operations and customer support in a high-volume supermarket, including stock management and making sure products are stored in the right categories in the warehouse.</p></div><div class="item"><div class="item-head"><b>Farm Volunteer<span class="pill">Volunteering</span></b><span class="when">Jun 2024</span></div><div class="where">Denmark</div><p>Supported daily farm and hospitality operations, including guest reception and general maintenance.</p></div></div>
   </div>
 </section>
 <section id="skills">

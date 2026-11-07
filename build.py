@@ -66,6 +66,8 @@ section > h2{font-size:clamp(1.8rem,4vw,2.3rem);line-height:1.2;margin-bottom:6p
 .card{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:28px;transition:border-color .2s,box-shadow .2s,transform .2s}
 .card:hover{border-color:var(--accent);box-shadow:0 10px 28px rgba(14,34,53,.08);transform:translateY(-2px)}
 .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+/* With an odd number of projects, the first (the thesis) spans the full width */
+.projects .grid2 > .card:first-child:nth-last-child(odd){grid-column:1/-1}
 .card h3{font-size:1.2rem;line-height:1.3}
 .focus{color:var(--accent);font-weight:700;font-size:.92rem;margin:2px 0 10px}
 .card p{color:var(--muted)}
@@ -136,7 +138,7 @@ footer{background:var(--hero);color:rgba(255,255,255,.5);text-align:center;font-
 @page{size:A4;margin:0}
 @media print{
   html{font-size:10.4px}
-  body{font-size:8.4pt;line-height:1.36;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body{font-size:8.3pt;line-height:1.34;-webkit-print-color-adjust:exact;print-color-adjust:exact}
   nav,.intro .btns,.contact,footer,.lead{display:none}
   .intro{padding:9mm 14mm 6mm}
   /* No letter-spacing or type pills in print, so ATS software reads headings and job titles as plain words */
@@ -150,7 +152,7 @@ footer{background:var(--hero);color:rgba(255,255,255,.5);text-align:center;font-
   section{max-width:none;padding:4mm 14mm 0}
   section > h2{font-size:11.5pt;margin-bottom:2.2mm}
   .grid2,.grid4{gap:3mm}
-  .card{padding:2.8mm 3.8mm;border-radius:10px;box-shadow:none!important;transform:none!important}
+  .card{padding:2.6mm 3.8mm;border-radius:10px;box-shadow:none!important;transform:none!important}
   .card h3{font-size:9.6pt;margin:0}
   .focus{font-size:8pt;margin:0 0 .8mm}
   .list h3{font-size:7.5pt;margin-bottom:.5mm}
