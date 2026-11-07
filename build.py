@@ -213,7 +213,11 @@ def render(cv):
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="{FONTS}" rel="stylesheet">
-<script>document.documentElement.classList.add('js')</script>
+<script>document.documentElement.classList.add('js');
+// Always open at the top: drop any #section from the address and don't restore the old scroll position
+if('scrollRestoration' in history)history.scrollRestoration='manual';
+if(location.hash)history.replaceState(null,'',location.pathname+location.search);
+addEventListener('load',()=>scrollTo({{top:0,behavior:'instant'}}))</script>
 <style>{CSS}</style>
 </head>
 <body>
