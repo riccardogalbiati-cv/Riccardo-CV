@@ -5,6 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Riccardo Galbiati — CV</title>
 <meta name="description" content="Riccardo Galbiati — Market Research · Quantitative Research · Consumer Insights. MA Media &amp; Creative Industries, Erasmus University Rotterdam.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://riccardogalbiati-cv.github.io/Riccardo-CV/">
+<meta property="og:title" content="Riccardo Galbiati — CV">
+<meta property="og:description" content="Market Research · Quantitative Research · Consumer Insights. MA Media &amp; Creative Industries, Erasmus University Rotterdam.">
+<meta property="og:image" content="https://riccardogalbiati-cv.github.io/Riccardo-CV/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800&family=Nunito+Sans:ital,opsz,wght@0,6..12,400;0,6..12,600;0,6..12,700;1,6..12,400&display=swap" rel="stylesheet">
@@ -48,6 +58,12 @@ nav{position:sticky;top:0;z-index:10;background:var(--nav);backdrop-filter:blur(
 .links a{padding:4px 0;border-bottom:2px solid transparent;transition:color .15s,border-color .15s}
 .links a:hover,.links a.on{color:var(--ink);border-color:var(--accent)}
 nav .btn{padding:8px 18px;font-size:.9rem}
+.nav-actions{display:flex;align-items:center;gap:10px}
+/* Phone menu: the section links fold into a dropdown behind this button */
+.menu-btn{display:none;width:38px;height:38px;border-radius:50%;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);align-items:center;justify-content:center;cursor:pointer}
+.menu-btn svg{width:18px;height:18px}
+.menu-btn .x,nav.open .menu-btn .bars{display:none}
+nav.open .menu-btn .x{display:block}
 
 /* Intro */
 .intro{background:var(--surface);text-align:center;padding:104px 16px 96px;border-bottom:1px solid var(--line)}
@@ -72,6 +88,8 @@ section > h2{font-size:clamp(1.8rem,4vw,2.3rem);line-height:1.2;margin-bottom:6p
 .card-head .when{color:var(--muted);font-weight:700;font-size:.88rem;white-space:nowrap}
 .focus{color:var(--accent);font-weight:700;font-size:.92rem;margin:2px 0 10px}
 .card p{color:var(--muted)}
+.tags{margin-top:14px}
+.tags li{background:none;border:1px solid var(--line);color:var(--muted);font-size:.8rem;padding:2px 10px}
 
 /* Education & experience: two lists side by side */
 .list h3{font-size:.8rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
@@ -99,7 +117,10 @@ section > h2{font-size:clamp(1.8rem,4vw,2.3rem);line-height:1.2;margin-bottom:6p
 .contact-links{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-bottom:26px}
 .contact-links a{padding:10px 20px;border-radius:999px;border:1.5px solid rgba(255,255,255,.35);font-weight:700;transition:background .2s,border-color .2s}
 .contact-links a:hover{background:rgba(255,255,255,.1);border-color:#fff}
+.contact .dl{display:flex;justify-content:center;flex-wrap:wrap;gap:12px}
 .contact .btn.solid{background:#fff;color:var(--hero);border-color:#fff}
+.contact .btn:not(.solid){color:#fff;border-color:rgba(255,255,255,.45)}
+.contact .btn:not(.solid):hover{background:rgba(255,255,255,.1);border-color:#fff}
 .contact .where{color:rgba(255,255,255,.6);margin-top:22px;font-size:.92rem}
 footer{background:var(--hero);color:rgba(255,255,255,.5);text-align:center;font-size:.85rem;padding:0 16px 32px}
 
@@ -126,6 +147,10 @@ footer{background:var(--hero);color:rgba(255,255,255,.5);text-align:center;font-
 
 @media screen and (max-width:860px){
   .links{display:none}
+  .menu-btn{display:inline-flex}
+  nav.open .links{display:flex;flex-direction:column;gap:0;position:absolute;top:100%;left:0;right:0;background:var(--surface);border-bottom:1px solid var(--line);box-shadow:0 12px 24px rgba(14,34,53,.12);padding:4px 16px 10px}
+  nav.open .links a{padding:13px 0;border-bottom:1px solid var(--line);font-size:1rem}
+  nav.open .links a:last-child{border-bottom:0}
   .intro{padding:72px 16px 64px}
   section{padding-top:64px}
   .grid2,.grid4{grid-template-columns:minmax(0,1fr)}
@@ -167,6 +192,7 @@ footer{background:var(--hero);color:rgba(255,255,255,.5);text-align:center;font-
   .extras{margin-top:3mm;gap:3mm}
   .langs{gap:0 6mm}
   .card-head .when{font-size:8pt}
+  .tags{display:none} /* shown on the website and in the ATS PDF; hidden here to keep one page */
   .card{break-inside:avoid}
 }
 </style>
@@ -175,7 +201,10 @@ footer{background:var(--hero);color:rgba(255,255,255,.5);text-align:center;font-
 <nav><div class="nav-in">
   <a class="brand" href="#top">Riccardo Galbiati</a>
   <div class="links"><a href="#projects">Projects</a><a href="#education">Education</a><a href="#skills">Skills</a><a href="#contact">Contact</a></div>
-  <a class="btn solid" href="Riccardo-Galbiati-CV.pdf">Download CV</a>
+  <div class="nav-actions">
+    <button class="menu-btn" type="button" aria-label="Menu" aria-expanded="false"><svg class="bars" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg><svg class="x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    <a class="btn solid" href="Riccardo-Galbiati-CV.pdf">Download CV</a>
+  </div>
 </div></nav>
 <header class="intro" id="top">
   <div class="kicker">Market Research · Quantitative Research · Consumer Insights</div>
@@ -189,7 +218,7 @@ footer{background:var(--hero);color:rgba(255,255,255,.5);text-align:center;font-
 <section id="projects" class="projects">
   <h2>Research projects</h2>
   <p class="lead">Quantitative and qualitative research from my MA and pre-master at Erasmus University Rotterdam.</p>
-  <div class="grid2"><article class="card"><div class="card-head"><h3>Master&#x27;s Thesis</h3><span class="when">Mar – Jun 2026</span></div><div class="focus">Consumer Behaviour &amp; Data Analytics</div><p>Designed a consumer survey with 315 participants, using SPSS regression and mediation analysis to identify key drivers of audience loyalty and disengagement, with a model explaining 59.1% of variance in disengagement intentions.</p></article><article class="card"><div class="card-head"><h3>Jera On Air</h3><span class="when">Feb – Mar 2026</span></div><div class="focus">Digital Marketing &amp; Brand Strategy</div><p>Co-developed an integrated marketing campaign proposal for a music festival attracting 40,000+ annual visitors, targeting consumers aged 20–25 across 3 countries through a multi-channel strategy, 3 brand extension concepts and 2 potential brand partnerships.</p></article><article class="card"><div class="card-head"><h3>Live Music Ticket Pricing</h3><span class="when">Feb 2026</span></div><div class="focus">Market &amp; Competitive Analysis</div><p>Analysed industry reports and news articles, identifying 6 recurring explanations for rising concert prices; found market concentration featured in 83% of the articles, alongside production costs and changing consumer demand.</p></article><article class="card"><div class="card-head"><h3>Pre-Master Research</h3><span class="when">Apr – Jun 2025</span></div><div class="focus">Consumer Insights &amp; Brand Perception</div><p>Conducted 10 in-depth consumer interviews and identified 4 key behavioural themes influencing brand authenticity, perceived value and audience preferences, translating qualitative findings into insights for audience positioning.</p></article></div>
+  <div class="grid2"><article class="card"><div class="card-head"><h3>Master&#x27;s Thesis</h3><span class="when">Mar – Jun 2026</span></div><div class="focus">Consumer Behaviour &amp; Data Analytics</div><p>Designed a consumer survey with 315 participants, using SPSS regression and mediation analysis to identify key drivers of audience loyalty and disengagement, with a model explaining 59.1% of variance in disengagement intentions.</p><ul class="chips tags" aria-label="Tools and methods"><li>Qualtrics</li><li>SPSS</li><li>Regression</li><li>Mediation analysis</li></ul></article><article class="card"><div class="card-head"><h3>Jera On Air</h3><span class="when">Feb – Mar 2026</span></div><div class="focus">Digital Marketing &amp; Brand Strategy</div><p>Co-developed an integrated marketing campaign proposal for a music festival attracting 40,000+ annual visitors, targeting consumers aged 20–25 across 3 countries through a multi-channel strategy, 3 brand extension concepts and 2 potential brand partnerships.</p><ul class="chips tags" aria-label="Tools and methods"><li>Audience targeting</li><li>Multi-channel strategy</li><li>Brand partnerships</li></ul></article><article class="card"><div class="card-head"><h3>Live Music Ticket Pricing</h3><span class="when">Feb 2026</span></div><div class="focus">Market &amp; Competitive Analysis</div><p>Analysed industry reports and news articles, identifying 6 recurring explanations for rising concert prices; found market concentration featured in 83% of the articles, alongside production costs and changing consumer demand.</p><ul class="chips tags" aria-label="Tools and methods"><li>Desk research</li><li>Content analysis</li></ul></article><article class="card"><div class="card-head"><h3>Pre-Master Research</h3><span class="when">Apr – Jun 2025</span></div><div class="focus">Consumer Insights &amp; Brand Perception</div><p>Conducted 10 in-depth consumer interviews and identified 4 key behavioural themes influencing brand authenticity, perceived value and audience preferences, translating qualitative findings into insights for audience positioning.</p><ul class="chips tags" aria-label="Tools and methods"><li>In-depth interviews</li><li>Thematic analysis</li></ul></article></div>
 </section>
 <section id="education">
   <h2>Education &amp; experience</h2>
@@ -204,7 +233,7 @@ footer{background:var(--hero);color:rgba(255,255,255,.5);text-align:center;font-
   <p class="lead">Research methods, marketing insight and the tools I use day to day.</p>
   <div class="grid4"><div class="card skill"><h3>Research &amp; Insights</h3><ul class="chips"><li>Quantitative research</li><li>Qualitative research</li><li>Survey design</li><li>Data analysis</li><li>Audience research</li><li>Consumer behaviour</li><li>Interpreting findings</li></ul></div><div class="card skill"><h3>Marketing &amp; Brand Research</h3><ul class="chips"><li>Consumer insights</li><li>Campaign development</li><li>Audience targeting</li><li>Positioning &amp; messaging</li><li>Brand partnership concepts</li><li>Presenting recommendations</li></ul></div><div class="card skill"><h3>Research &amp; Reporting Tools</h3><ul class="chips"><li>SPSS</li><li>Qualtrics</li><li>Excel</li><li>Tableau</li><li>Google Analytics</li><li>PowerPoint</li><li>Canva</li></ul></div><div class="card skill"><h3>Additional Technical Skills</h3><ul class="chips"><li>SQL (foundational)</li><li>Python (foundational)</li><li>Gephi</li><li>ConText</li></ul></div></div>
   <div class="extras">
-    <div class="card list"><h3>Certifications &amp; coursework</h3><div class="item"><div class="item-head"><b>Google Analytics Certification</b><span class="where">Google</span></div></div><div class="item"><div class="item-head"><b>Qualtrics, SQL and Python</b><span class="where">BSc &amp; MA coursework</span></div></div></div>
+    <div class="card list"><h3>Certifications &amp; coursework</h3><div class="item"><div class="item-head"><b>Google Analytics Certification</b><span class="where">Google · Oct 2026</span></div></div><div class="item"><div class="item-head"><b>Qualtrics, SQL and Python</b><span class="where">BSc &amp; MA coursework</span></div></div></div>
     <div class="card list"><h3>Languages</h3><div class="langs"><div class="item"><div class="item-head"><b>Italian</b><span class="when">Native</span></div></div><div class="item"><div class="item-head"><b>English</b><span class="when">IELTS C1</span></div></div><div class="item"><div class="item-head"><b>French</b><span class="when">A1</span></div></div><div class="item"><div class="item-head"><b>Dutch</b><span class="when">A1</span></div></div></div></div>
   </div>
 </section>
@@ -212,13 +241,19 @@ footer{background:var(--hero);color:rgba(255,255,255,.5);text-align:center;font-
   <h2>Let's talk</h2>
   <p class="lead">Open to roles in market research, consumer insights and quantitative research.</p>
   <div class="contact-links"><a href="mailto:riccardo.galbiati99@gmail.com">riccardo.galbiati99@gmail.com</a><a href="tel:+393662631630">+39 366 263 1630</a><a href="https://www.linkedin.com/in/riccardo-galbiati-942338420">LinkedIn</a></div>
-  <a class="btn solid" href="Riccardo-Galbiati-CV.pdf">Download CV (PDF)</a>
+  <div class="dl"><a class="btn solid" href="Riccardo-Galbiati-CV.pdf">Download CV (PDF)</a><a class="btn" href="Riccardo-Galbiati-CV-ATS.pdf" title="Plain single-column version for online application forms">ATS version (PDF)</a></div>
   <p class="where">Based in Rotterdam, Netherlands</p>
 </section>
 </main>
 <footer>© 2026 Riccardo Galbiati</footer>
 <script>
+const nav=document.querySelector('nav'),menuBtn=document.querySelector('.menu-btn');
 const links=[...document.querySelectorAll('.links a')];
+const setMenu=open=>{nav.classList.toggle('open',open);menuBtn.setAttribute('aria-expanded',open);};
+menuBtn.addEventListener('click',()=>setMenu(!nav.classList.contains('open')));
+links.forEach(a=>a.addEventListener('click',()=>setMenu(false)));
+addEventListener('keydown',ev=>{if(ev.key==='Escape')setMenu(false);});
+
 const io=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting)links.forEach(a=>a.classList.toggle('on',a.hash==='#'+x.target.id));}),{rootMargin:'-45% 0px -50% 0px'});
 document.querySelectorAll('section[id]').forEach(s=>io.observe(s));
 
@@ -228,7 +263,6 @@ items.forEach(el=>{el.classList.add('reveal');const sibs=[...el.parentElement.ch
 document.querySelectorAll('.chips,.list').forEach(l=>[...l.querySelectorAll('li,.item')].forEach((x,i)=>x.style.setProperty('--i',i)));
 const show=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');show.unobserve(x.target);}}),{rootMargin:'0px 0px -8% 0px'});
 document.querySelectorAll('.reveal').forEach(el=>show.observe(el));
-const nav=document.querySelector('nav');
 addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>8),{passive:true});
 </script>
 </body>

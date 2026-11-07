@@ -1,15 +1,18 @@
 #!/usr/bin/env python3
 """Build Riccardo Galbiati's CV website from cv.json.
 
-    python3 build.py   # writes index.html and Riccardo-Galbiati-CV.pdf
+    python3 build.py   # writes the website, both PDFs, the link-preview image and icons
 """
 import json
 import subprocess
+import tempfile
 from html import escape
 from pathlib import Path
 
 ROOT = Path(__file__).parent
 PDF_NAME = "Riccardo-Galbiati-CV.pdf"
+ATS_PDF_NAME = "Riccardo-Galbiati-CV-ATS.pdf"
+SITE_URL = "https://riccardogalbiati-cv.github.io/Riccardo-CV/"
 CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 
 FONTS = "https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800&family=Nunito+Sans:ital,opsz,wght@0,6..12,400;0,6..12,600;0,6..12,700;1,6..12,400&display=swap"
@@ -49,6 +52,12 @@ nav{position:sticky;top:0;z-index:10;background:var(--nav);backdrop-filter:blur(
 .links a{padding:4px 0;border-bottom:2px solid transparent;transition:color .15s,border-color .15s}
 .links a:hover,.links a.on{color:var(--ink);border-color:var(--accent)}
 nav .btn{padding:8px 18px;font-size:.9rem}
+.nav-actions{display:flex;align-items:center;gap:10px}
+/* Phone menu: the section links fold into a dropdown behind this button */
+.menu-btn{display:none;width:38px;height:38px;border-radius:50%;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);align-items:center;justify-content:center;cursor:pointer}
+.menu-btn svg{width:18px;height:18px}
+.menu-btn .x,nav.open .menu-btn .bars{display:none}
+nav.open .menu-btn .x{display:block}
 
 /* Intro */
 .intro{background:var(--surface);text-align:center;padding:104px 16px 96px;border-bottom:1px solid var(--line)}
@@ -73,6 +82,8 @@ section > h2{font-size:clamp(1.8rem,4vw,2.3rem);line-height:1.2;margin-bottom:6p
 .card-head .when{color:var(--muted);font-weight:700;font-size:.88rem;white-space:nowrap}
 .focus{color:var(--accent);font-weight:700;font-size:.92rem;margin:2px 0 10px}
 .card p{color:var(--muted)}
+.tags{margin-top:14px}
+.tags li{background:none;border:1px solid var(--line);color:var(--muted);font-size:.8rem;padding:2px 10px}
 
 /* Education & experience: two lists side by side */
 .list h3{font-size:.8rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
@@ -100,7 +111,10 @@ section > h2{font-size:clamp(1.8rem,4vw,2.3rem);line-height:1.2;margin-bottom:6p
 .contact-links{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-bottom:26px}
 .contact-links a{padding:10px 20px;border-radius:999px;border:1.5px solid rgba(255,255,255,.35);font-weight:700;transition:background .2s,border-color .2s}
 .contact-links a:hover{background:rgba(255,255,255,.1);border-color:#fff}
+.contact .dl{display:flex;justify-content:center;flex-wrap:wrap;gap:12px}
 .contact .btn.solid{background:#fff;color:var(--hero);border-color:#fff}
+.contact .btn:not(.solid){color:#fff;border-color:rgba(255,255,255,.45)}
+.contact .btn:not(.solid):hover{background:rgba(255,255,255,.1);border-color:#fff}
 .contact .where{color:rgba(255,255,255,.6);margin-top:22px;font-size:.92rem}
 footer{background:var(--hero);color:rgba(255,255,255,.5);text-align:center;font-size:.85rem;padding:0 16px 32px}
 
@@ -127,6 +141,10 @@ footer{background:var(--hero);color:rgba(255,255,255,.5);text-align:center;font-
 
 @media screen and (max-width:860px){
   .links{display:none}
+  .menu-btn{display:inline-flex}
+  nav.open .links{display:flex;flex-direction:column;gap:0;position:absolute;top:100%;left:0;right:0;background:var(--surface);border-bottom:1px solid var(--line);box-shadow:0 12px 24px rgba(14,34,53,.12);padding:4px 16px 10px}
+  nav.open .links a{padding:13px 0;border-bottom:1px solid var(--line);font-size:1rem}
+  nav.open .links a:last-child{border-bottom:0}
   .intro{padding:72px 16px 64px}
   section{padding-top:64px}
   .grid2,.grid4{grid-template-columns:minmax(0,1fr)}
@@ -168,6 +186,7 @@ footer{background:var(--hero);color:rgba(255,255,255,.5);text-align:center;font-
   .extras{margin-top:3mm;gap:3mm}
   .langs{gap:0 6mm}
   .card-head .when{font-size:8pt}
+  .tags{display:none} /* shown on the website and in the ATS PDF; hidden here to keep one page */
   .card{break-inside:avoid}
 }
 """
@@ -179,7 +198,9 @@ def e(s):
 
 def project(x):
     return (f'<article class="card"><div class="card-head"><h3>{e(x["title"])}</h3><span class="when">{e(x.get("dates"))}</span></div>'
-            f'<div class="focus">{e(x["focus"])}</div><p>{e(x["summary"])}</p></article>')
+            f'<div class="focus">{e(x["focus"])}</div><p>{e(x["summary"])}</p>'
+            + (f'<ul class="chips tags" aria-label="Tools and methods">' + "".join(f"<li>{e(t)}</li>" for t in x["tags"]) + "</ul>" if x.get("tags") else "")
+            + "</article>")
 
 
 def edu(x):
@@ -212,6 +233,16 @@ def render(cv):
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{e(cv["name"])} — CV</title>
 <meta name="description" content="{e(cv["name"])} — {e(cv["focus"])}. {e(cv["headline"])}, {e(cv["school"])}.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{SITE_URL}">
+<meta property="og:title" content="{e(cv["name"])} — CV">
+<meta property="og:description" content="{e(cv["focus"])}. {e(cv["headline"])}, {e(cv["school"])}.">
+<meta property="og:image" content="{SITE_URL}og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="{FONTS}" rel="stylesheet">
@@ -226,7 +257,10 @@ addEventListener('load',()=>scrollTo({{top:0,behavior:'instant'}}))</script>
 <nav><div class="nav-in">
   <a class="brand" href="#top">{e(cv["name"])}</a>
   <div class="links"><a href="#projects">Projects</a><a href="#education">Education</a><a href="#skills">Skills</a><a href="#contact">Contact</a></div>
-  <a class="btn solid" href="{PDF_NAME}">Download CV</a>
+  <div class="nav-actions">
+    <button class="menu-btn" type="button" aria-label="Menu" aria-expanded="false"><svg class="bars" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg><svg class="x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    <a class="btn solid" href="{PDF_NAME}">Download CV</a>
+  </div>
 </div></nav>
 <header class="intro" id="top">
   <div class="kicker">{e(cv["focus"])}</div>
@@ -263,13 +297,19 @@ addEventListener('load',()=>scrollTo({{top:0,behavior:'instant'}}))</script>
   <h2>Let's talk</h2>
   <p class="lead">Open to roles in market research, consumer insights and quantitative research.</p>
   <div class="contact-links"><a href="mailto:{e(c["email"])}">{e(c["email"])}</a><a href="tel:{e(tel)}">{e(c["phone"])}</a><a href="{e(c["linkedin_url"])}">LinkedIn</a></div>
-  <a class="btn solid" href="{PDF_NAME}">Download CV (PDF)</a>
+  <div class="dl"><a class="btn solid" href="{PDF_NAME}">Download CV (PDF)</a><a class="btn" href="{ATS_PDF_NAME}" title="Plain single-column version for online application forms">ATS version (PDF)</a></div>
   <p class="where">Based in {e(c["location"])}</p>
 </section>
 </main>
 <footer>© 2026 {e(cv["name"])}</footer>
 <script>
+const nav=document.querySelector('nav'),menuBtn=document.querySelector('.menu-btn');
 const links=[...document.querySelectorAll('.links a')];
+const setMenu=open=>{{nav.classList.toggle('open',open);menuBtn.setAttribute('aria-expanded',open);}};
+menuBtn.addEventListener('click',()=>setMenu(!nav.classList.contains('open')));
+links.forEach(a=>a.addEventListener('click',()=>setMenu(false)));
+addEventListener('keydown',ev=>{{if(ev.key==='Escape')setMenu(false);}});
+
 const io=new IntersectionObserver(es=>es.forEach(x=>{{if(x.isIntersecting)links.forEach(a=>a.classList.toggle('on',a.hash==='#'+x.target.id));}}),{{rootMargin:'-45% 0px -50% 0px'}});
 document.querySelectorAll('section[id]').forEach(s=>io.observe(s));
 
@@ -279,7 +319,6 @@ items.forEach(el=>{{el.classList.add('reveal');const sibs=[...el.parentElement.c
 document.querySelectorAll('.chips,.list').forEach(l=>[...l.querySelectorAll('li,.item')].forEach((x,i)=>x.style.setProperty('--i',i)));
 const show=new IntersectionObserver(es=>es.forEach(x=>{{if(x.isIntersecting){{x.target.classList.add('in');show.unobserve(x.target);}}}}),{{rootMargin:'0px 0px -8% 0px'}});
 document.querySelectorAll('.reveal').forEach(el=>show.observe(el));
-const nav=document.querySelector('nav');
 addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>8),{{passive:true}});
 </script>
 </body>
@@ -287,23 +326,135 @@ addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>8),{{passi
 """
 
 
-def build_pdf():
-    """Print index.html to PDF with headless Chrome (uses the page's print styles)."""
-    if not Path(CHROME).exists():
-        print(f"skipped {PDF_NAME}: Google Chrome not found")
-        return
-    subprocess.run([CHROME, "--headless=new", "--disable-gpu", "--no-pdf-header-footer",
-                    "--virtual-time-budget=8000", f"--print-to-pdf={ROOT / PDF_NAME}",
-                    (ROOT / "index.html").as_uri()],
+ATS_CSS = """
+@page{size:A4;margin:10mm 15mm}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial,Helvetica,sans-serif;font-size:9.5pt;line-height:1.28;color:#000;max-width:180mm;margin:0 auto}
+@media screen{body{padding:24px 16px}}
+h1{font-size:20pt}
+.sub{font-size:10.5pt;margin-top:1pt}
+.contact{margin-top:3pt}
+.contact span{white-space:nowrap}
+h2{font-size:10.5pt;text-transform:uppercase;border-bottom:1px solid #000;padding-bottom:1pt;margin:7pt 0 3.5pt}
+.entry{margin-bottom:3.5pt;break-inside:avoid}
+.row{display:flex;justify-content:space-between;gap:12pt}
+.row span{white-space:nowrap}
+p{margin-top:1pt}
+"""
+
+
+def render_ats(cv):
+    """Plain single-column CV for application portals: standard headings, one font, no columns or graphics."""
+    c = cv["contact"]
+    linkedin = c["linkedin_url"].split("//")[-1].removeprefix("www.")
+
+    def entry(title, dates, *lines):
+        return (f'<div class="entry"><div class="row"><b>{title}</b><span>{e(dates)}</span></div>'
+                + "".join(f"<p>{l}</p>" for l in lines if l) + "</div>")
+
+    education = "".join(entry(f'{e(x["degree"])}, {e(x["institution"])}', x["dates"]) for x in cv["education"])
+    projects = "".join(entry(f'{e(x["title"])} | {e(x["focus"])}', x.get("dates"), e(x["summary"]),
+                             "Tools and methods: " + e(", ".join(x["tags"])) if x.get("tags") else "")
+                       for x in cv["projects"])
+    work = "".join(entry(f'{e(x["role"])}, {e(x["organisation"])}', x["dates"], e(x.get("summary"))) for x in cv["experience"])
+    skills = "".join(f'<p><b>{e(g["group"])}:</b> {e(", ".join(g["items"]))}</p>' for g in cv["skills"])
+    certs = "".join(f'<p>{e(x["name"])}, {e(x["issuer"]).replace(" · ", ", ")}</p>' for x in cv.get("certifications", []))
+    langs = e(", ".join(f'{l["language"]} ({l["level"]})' for l in cv["languages"]))
+
+    return f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>{e(cv["name"])} — CV (ATS version)</title>
+<style>{ATS_CSS}</style>
+</head>
+<body>
+<h1>{e(cv["name"])}</h1>
+<p class="sub">{e(cv["focus"])}</p>
+<p class="contact">{" | ".join(f"<span>{e(v)}</span>" for v in (c["location"], c["phone"], c["email"], linkedin))}</p>
+<h2>Profile</h2>
+<p>{e(cv["profile"])}</p>
+<h2>Education</h2>
+{education}
+<h2>Research Projects</h2>
+{projects}
+<h2>Experience</h2>
+{work}
+<h2>Skills</h2>
+{skills}
+<h2>Certifications</h2>
+{certs}
+<h2>Languages</h2>
+<p>{langs}</p>
+</body>
+</html>
+"""
+
+
+ICON_SVG = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="{rx}" fill="#0e2235"/><text x="32" y="42.5" text-anchor="middle" font-family="Georgia,'Times New Roman',serif" font-size="29" fill="#ffffff">RG</text></svg>"""
+
+
+def og_image_html(cv):
+    """1200×630 card shown when the link is shared on LinkedIn, WhatsApp, email and so on."""
+    return f"""<!DOCTYPE html><html><head><meta charset="UTF-8"><link href="{FONTS}" rel="stylesheet"><style>
+*{{margin:0;padding:0;box-sizing:border-box}}
+body{{width:1200px;height:630px;background:#0e2235;color:#fff;font-family:'Nunito Sans',sans-serif;padding:84px 96px;display:flex;flex-direction:column;position:relative;overflow:hidden}}
+body::after{{content:"";position:absolute;right:-160px;top:-160px;width:560px;height:560px;border-radius:50%;border:2px solid rgba(124,196,218,.18)}}
+.mark{{width:76px;height:76px;border-radius:14px;box-shadow:0 0 0 2px rgba(255,255,255,.28)}}
+.kicker{{font-family:'Nunito',sans-serif;font-weight:800;color:#7cc4da;letter-spacing:.14em;text-transform:uppercase;font-size:22px;margin-top:auto}}
+h1{{font-family:Georgia,'Times New Roman',serif;font-weight:400;font-size:104px;line-height:1.05;margin:18px 0 16px}}
+.sub{{font-size:28px;color:rgba(255,255,255,.78);font-weight:600}}
+</style></head><body>
+{ICON_SVG.replace('<svg ', '<svg class="mark" ').format(rx=14)}
+<div class="kicker">{e(cv["focus"])}</div>
+<h1>{e(cv["name"])}</h1>
+<div class="sub">{e(cv["headline"])} · {e(cv["school"])}</div>
+</body></html>"""
+
+
+def chrome(*args):
+    subprocess.run([CHROME, "--headless=new", "--disable-gpu", "--hide-scrollbars", "--virtual-time-budget=8000", *args],
                    check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    print(PDF_NAME)
+
+
+def print_pdf(html_name, pdf_name):
+    """Print a page to PDF with headless Chrome (uses the page's print styles)."""
+    chrome("--no-pdf-header-footer", f"--print-to-pdf={ROOT / pdf_name}", (ROOT / html_name).as_uri())
+    print(pdf_name)
+
+
+def screenshot(html, png_name, width, height):
+    with tempfile.NamedTemporaryFile("w", suffix=".html", encoding="utf-8", delete=False) as f:
+        f.write(html)
+    try:
+        chrome(f"--window-size={width},{height}", f"--screenshot={ROOT / png_name}", Path(f.name).as_uri())
+    finally:
+        Path(f.name).unlink()
+    print(png_name)
+
+
+def build_images(cv):
+    (ROOT / "favicon.svg").write_text(ICON_SVG.format(rx=14), encoding="utf-8")
+    print("favicon.svg")
+    # iOS rounds the corners itself, so the touch icon is a full square
+    screenshot(f'<body style="margin:0">{ICON_SVG.format(rx=0).replace("<svg ", "<svg width=180 height=180 ")}</body>',
+               "apple-touch-icon.png", 180, 180)
+    screenshot(og_image_html(cv), "og-image.png", 1200, 630)
 
 
 def main():
     cv = json.loads((ROOT / "cv.json").read_text(encoding="utf-8"))
     (ROOT / "index.html").write_text(render(cv), encoding="utf-8")
-    print("index.html")
-    build_pdf()
+    (ROOT / "cv-ats.html").write_text(render_ats(cv), encoding="utf-8")
+    print("index.html\ncv-ats.html")
+    if not Path(CHROME).exists():
+        print("skipped PDFs and images: Google Chrome not found")
+        return
+    print_pdf("index.html", PDF_NAME)
+    print_pdf("cv-ats.html", ATS_PDF_NAME)
+    build_images(cv)
 
 
 if __name__ == "__main__":
